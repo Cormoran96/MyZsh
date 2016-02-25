@@ -1,0 +1,21 @@
+# Un charset francais
+export LESSCHARSET="latin9"
+export PAGER=$(which less)
+
+# config de less
+eval $(lesspipe)
+
+
+# options:
+# c - full screen repaints from top to bottom
+# e - quit at EOF
+# i - ignore case on search (disabled if pattern contains uppercase letters)
+# J - shows the lines that matched the  current  search
+# w - highlights the first "new unread" line
+# M - prompt verbosely
+# x - [xn] sets tab stops at multiples of n
+
+export LESS="-ciJwMx3"
+
+
+

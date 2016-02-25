@@ -1,0 +1,99 @@
+# Completion Styles
+
+#autoload -U predict-on
+#zle -N predict-on
+#zle -N predict-off
+#bindkey "" predict-on ## C-x C-z
+#bindkey "" predict-off ## C-z
+
+# list of completers to use
+zstyle ':completion:*::::' completer _expand _complete _ignored _approximate
+
+# allow one error for every three characters typed in approximate completer
+zstyle -e ':completion:*:approximate:*' max-errors \
+    'reply=( $(( ($#PREFIX+$#SUFFIX)/3 )) numeric )'
+
+# insert all expansions for expand completer
+zstyle ':completion:*:expand:*' tag-order all-expansions
+
+# formatting and messages
+zstyle ':completion:*' verbose yes
+zstyle ':completion:*:messages' format '%d'
+zstyle ':completion:*' group-name ''
+
+# put some colors in messages if available
+if (( ${+fg} )); then
+  zstyle ':completion:*:descriptions' format \
+          "%{$reset_color%}$fg[blue] %B%d%b%{$reset_color%}"
+  zstyle ':completion:*:warnings' format \
+          "%{$reset_color%}$fg[yellow] Rien ne correspond dans: %d%{$reset_color%}"
+  zstyle ':completion:*:corrections' format \
+          "%{$reset_color%}$fg[red] %B%d (erreurs: %e)%b%{$reset_color%}"
+else
+  zstyle ':completion:*:descriptions' format " %B%d%b"
+  zstyle ':completion:*:warnings' format " Rien ne correspond dans: %d"
+  zstyle ':completion:*:corrections' format " %B%d (erreurs: %e)%b"
+fi
+
+# match uppercase from lowercase
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=* l:|=*'
+# offer indexes before parameters in subscripts
+zstyle ':completion:*:*:-subscript-:*' tag-order indexes parameters
+
+# command for process lists, the local web server details and host completion
+zstyle ':completion:*:processes' command 'ps -au$USER -o pid,s,nice,stime,args'
+#zstyle ':completion:*:urls' local 'www' '/var/www/htdocs' 'public_html'
+#zstyle '*' hosts $hosts
+
+# Filename suffixes to ignore during completion (except after rm command)
+zstyle ':completion:*:*:(^rm):*:*files' ignored-patterns '*?.o' '*?.c~' \
+    '*?.old' '*?.pro'
+# the same for old style completion
+#fignore=(.o .c~ .old .pro)
+
+# ignore completion functions (until the _ignored completer)
+zstyle ':completion:*:functions' ignored-patterns '_*'
+
+#completion sur le local directory puis sur le cdpath pour la commande cd
+zstyle ':completion:*:*:cd:*' tag-order local-directories path-directories
+
+zstyle ':completion:*' menu select=2
+zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
+
+# les memes couleurs que ls
+#zstyle ':completion:*' list-colors ''
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
+
+#Eviter de se faire proposer 2 fois le même fichier pour
+zstyle ':completion:*:rm:*' ignore-line true
+zstyle ':completion:*:mv:*' ignore-line true
+zstyle ':completion:*:cp:*' ignore-line true
+
+#Utilisation du cache
+zstyle ':completion:*' use-cache true
+#zstyle ':completion:*' use-cache false
+zstyle ':completion:*' cache-path ~/.zsh/cache
+
+# Completion ssh en fonction des known_hosts
+if [[ ( -d $HOME/.ssh ) && ( -r $HOME/.ssh/known_hosts) ]]
+then
+	local _myhosts
+	_myhosts=(${=${${(f)"$(<$HOME/.ssh/known_hosts)"}%%[# ]*}//,/ })
+	zstyle ':completion:*' hosts $_myhosts
+fi;
+
+# Completion autofs (ultra-gorret, le probleme vient de zsh qui 
+# monte d'office tous les repertoires possibles quand on fait 
+# de la completion directe)
+#typeset -A automount
+#automount=(${(f)"$(egrep -v '#' /etc/auto.master | awk '{print $1;print $2}')"})
+#local mountpoint
+#for i in ${(k)automount};
+#do
+#  mountpoint=`egrep -v "#" ${automount[$i]} | awk '{print $1}' | xargs`
+#  zstyle ":completion:*" fake-files "$i:$mountpoint"
+#done
+
+autoload -zU compinit
+compinit

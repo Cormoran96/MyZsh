@@ -1,0 +1,78 @@
+#
+# Prompt et Definition des touches
+#
+
+### From zshzle man page ###
+
+# there are four keymaps:
+
+# emacs  EMACS emulation
+# viins  vi emulation - insert mode
+# vicmd  vi emulation - command mode
+# .safe  fallback keymap
+
+# either `emacs' or `viins' is also linked to the name `main'
+# If one of the VISUAL or EDITOR environment variables contain
+# the string `vi' when the shell starts up then it will be 
+# 'viins' otherwise it will be `emacs'.
+# bindkey's -e and -v options provide a convenient way to
+# override this default choice.
+
+# use emacs key settings
+bindkey -e
+zshrc_load_status emacs bindkeys
+
+# nota: !!! important !!!
+# termcap is now obsolete, and thus not installed on recent debian
+# an easy way to find sequence send by each key is to use
+# the autoloadable zkbd function
+
+## get keys working
+# '^[' sequence should be replaced with '\e' or '\E'
+# '^' sequence should be replaced with '\C' or '\C-'
+
+# up-line-or-history:
+# Move up a line in the buffer, or if already at the top line, move to
+# the previous event in the history list.
+
+# up-line-or-search:
+# Move up a line in the buffer, or if already at the top line, search
+# backward in the history for a line beginning with the first word in
+# the buffer.
+
+case $TERM in 
+	linux|screen|screen.linux)
+	bindkey "\e[2~"   overwrite-mode        # Insert
+	bindkey "\e[3~"   delete-char           # Del
+	bindkey "\e[5~"   up-line-or-history    # PageUp
+	bindkey "\e[6~"   down-line-or-history  # PageDown
+	bindkey "\e[1~"   beginning-of-line
+	bindkey "\e[4~"   end-of-line
+	bindkey "\ee"     expand-cmd-path       # ESC-e expands path of typed command
+	bindkey "\e[A"    up-line-or-search     # up arrow for back-history-search
+	bindkey "\e[B"    down-line-or-search   # down arrow for fwd-history-search
+	bindkey ' '       magic-space           # do history expansion on space
+;;
+	*xterm*|*rxvt*|(dt|k|a|E)term)
+	bindkey "\e[2~"   overwrite-mode        # Insert
+	bindkey "\e[3~"   delete-char           # Del
+	bindkey "\e[5~"   up-line-or-history    # PageUp
+	bindkey "\e[6~"   down-line-or-history  # PageDown
+	bindkey "\e[7~"   beginning-of-line
+	bindkey "\e[8~"   end-of-line
+	bindkey "\ee"     expand-cmd-path       # ESC-e expands path of typed command
+	bindkey "\e[A"    up-line-or-search     # up arrow for back-history-search
+	bindkey "\e[B"    down-line-or-search   # down arrow for fwd-history-search
+	bindkey ' '       magic-space           # do history expansion on space
+;;
+esac
+zshrc_load_status terminal bindkeys
+
+# nota: a lot of bindings are already done by defaults
+# (such '^A' and '^E' for beginning or enf of line
+# see zhszle(1) for more.
+
+## useful bindkey macros
+#bindkey -s "^Xm" 'mutt\n' ## run mutt
+#bindkey -s "^Xc" 'mcdrom\n' ## mount or umount cdrom
+

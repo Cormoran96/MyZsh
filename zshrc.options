@@ -1,0 +1,157 @@
+# Options de zsh (cf 'man zshoptions')
+# (ou cf /usr/share/doc/zsh-doc pour les gents normalement
+# constitués qui ont installé le package zsh-doc)
+
+# options are case insensitive, underscores are ignored
+# options can be inverted by preceding it 'no'
+# unsetopt auto_cd == setopt NO_auto_CD
+
+# if a command is issued that can't be executed as a normal command, 
+# and the command is the name of a directory, perform the cd command
+# to that directory.
+#setopt auto_cd
+
+# If the argument to a cd command (or an implied cd with the AUTO_CD 
+# option set) is not a directory, and does not begin with a slash, 
+# try to expand the expression as if it were preceded by a `~'
+#
+# ( try cd /usr/sbin, it's kinda... funny )
+setopt cdable_vars
+zshrc_load_status auto cd facilities enabled
+
+
+# Je ne veux JAMAIS de beeps
+unsetopt beep
+unsetopt hist_beep
+unsetopt list_beep
+zshrc_load_status silents the console 
+
+
+# correct misspelled command or file names
+setopt correct
+# correct_all correct ALL words in a line, thus a command
+# like 'man procmailrc' is corrected by 'man .procmailrc',
+# if such a file exist in pwd...
+#setopt correct_all
+zshrc_load_status correction enabled
+
+
+# HASH_ALL : Should be set by default. Put everything in hash
+setopt hash_all
+zshrc_load_status hashing all enabled
+
+
+# Make cd push the old directory onto the directory stack.
+setopt auto_pushd
+
+# Have pushd with no arguments act like `pushd $HOME'.
+setopt pushd_to_home
+
+# Do not print the directory stack after pushd or popd.
+setopt pushd_silent
+zshrc_load_status directory stack options enabled
+
+
+# EXTENDED_HISTORY      : Save time and date in history
+setopt extended_history
+
+# If this is set, zsh sessions will append their history list to 
+# the history file, rather than overwrite it. Thus, multiple parallel zsh
+# sessions will all have their history lists added to the history file, 
+# in the order they are killed.
+setopt append_history
+
+# Remove command lines from the history list when the first 
+# character on the line is a space, or when one of the expanded 
+# aliases contains a leading space. Note that the command lingers 
+# in the internal history until the next command is entered 
+# before it vanishes, allowing you to briefly reuse or edit the line.
+# If you want to make it vanish right away without entering 
+# another command, type a space and press return.
+setopt hist_ignore_space
+
+# Remove the history (fc -l) command from the history list when invoked. 
+# Note that the command lingers in the internal history until the next 
+# command is entered before it vanishes, allowing you to briefly reuse or edit the line.
+setopt hist_no_store
+
+# Remove superfluous blanks from each command line being added to the history list.
+setopt hist_reduce_blanks
+
+# When writing out the history file, older commands that duplicate newer ones are omitted.
+setopt hist_save_no_dups
+zshrc_load_status smart extended history enabled
+
+
+# resume background job if the commandline == name of job
+setopt auto_resume
+
+# Do not send "HUP" to bg jobs when the shell turn off
+unsetopt hup
+
+# tell me about jobs (running/suspended) when I want to leave, 
+setopt check_jobs
+zshrc_load_status jobs control enabled
+
+
+# prevent aliases from the command line to be internally substitued
+# before completion is attempted (aliases become real commands for completion)
+setopt complete_aliases
+zshrc_load_status aliases as real commands enabled
+
+
+# remove right prompt when accepting command
+setopt transient_rprompt
+zshrc_load_status right prompt removing enabled
+
+
+# >! doit être utilisé pour pouvoir écraser un fichier déjà existant ;
+# le fichier ne sera pas écrasé avec '>'
+unsetopt clobber
+
+# Ctrl+D est équivalent à 'logout'
+unsetopt ignore_eof
+
+# Affiche le code de sortie si différent de '0'
+setopt print_exit_value
+
+# Demande confirmation pour 'rm *'
+unsetopt rm_star_silent
+
+
+# match dot-files with * (not only with .*)
+unsetopt glob_dots
+
+# Allow extended globbing modifiers (such as (#b), for backreferences)
+setopt extended_glob
+
+# sort globbed numeric filenames numerically (not lexicographically)
+setopt numeric_glob_sort
+zshrc_load_status globbing option enabled
+
+
+# allow comments in interactive shell (handy to paste in code)
+setopt interactive_comments
+zshrc_load_status comments in interactive shell enabled
+
+
+# show file type of possible completions
+setopt list_types
+setopt magic_equal_subst
+zshrc_load_status show file type of possible completions options enabled
+
+# menu completion after second consecutive request for completion
+setopt auto_menu
+setopt auto_name_dirs
+setopt auto_param_keys
+zshrc_load_status menu completion options enabled
+
+# allow completion _within_ words
+setopt complete_in_word
+zshrc_load_status complete within word option enabled
+
+# go to end of word after completion (even if it was an inword-completion)
+setopt always_to_end
+zshrc_load_status go to end of word after completion option enabled
+
+

@@ -1,0 +1,46 @@
+# utility functions
+# ( /usr/share/zsh/version/functions/Misc )
+
+# find the right keymap of terminal
+#autoload -U zkbd
+
+# display current zsh options
+#autoload -U allopt
+
+# tetris
+#autoload -U tetris
+
+# edit while in command-line!
+#autoload zed
+
+# multiple moves based on zsh patern matching
+#autoload zmv
+#
+
+# Function easyplay
+# PrÃ©requis: INSTALLER media-sound/sox et sys-apps/slocate
+# ex: `easyplay .mp3` #lira tous vos fichiers mp3 
+# ex: `easyplay "Coldplay"` lira tous vos mp3 de Coldplay
+# NB: Ne tient pas compte de la casse
+# NB: Ne lit que les fichiers contenant .mp3 dans leur nom
+# NB: Avec Ctr+c vous passez au morceau suivant
+# NB: Avec Ctr+c maintenu, vous quittez cette fonction
+#
+function easyplay() {
+playlist=`locate -i $1 | grep "\.mp3"`
+echo "Going to play:"
+echo $playlist | sed "s/^/   /"
+echo $playlist | sed "s/^\(.*\)$/play \"\1\"/" | sh
+}
+
+# Function minicap
+# Remove duplicates file within a .pcap file
+function minicap() {
+       editcap -d -D 6 $1 $1\-mini.pcapng
+}
+
+# Function msg2mbox
+# Convert msg formar to mbox
+function msg2mbox() {
+	perl /usr/local/bin/msgconvert.pl $1 --mbox $1.mbox
+}

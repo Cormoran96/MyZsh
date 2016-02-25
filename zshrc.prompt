@@ -1,0 +1,27 @@
+# Load Zsh color's library
+#autoload -U colors
+#colors
+#zshrc_load_status color\'s library
+
+autoload -U promptinit
+promptinit
+prompt K
+zshrc_load_status prompt "$prompt_theme" initialized
+
+# Redefine X-terminal title
+case $TERM in
+    (E|k|dt)term|*xterm*|*rxvt*)
+  # ZLE: display [date] user@host[pts] (path) in term title
+  precmd () { 
+    print -Pn "\e]0;[%D{%H:%M} %w/%D{%m/%Y}] %n@%m[%l] (%15>..>%~%<<)\a"
+  }
+  # process: display [date] user@host[pts] <command> in term title
+  preexec () {
+    local ccmd=${$(print -n $1)[1]}
+    print -Pn "\e]0;[%D{%H:%M} %w/%D{%m/%Y}] %n@%m[%l] <%15>..>$ccmd%<<>\a"
+  }
+  ;;
+esac
+zshrc_load_status X-terminal title redefinition
+
+

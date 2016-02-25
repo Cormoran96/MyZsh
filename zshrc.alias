@@ -1,0 +1,110 @@
+#
+# Les alias
+#
+
+
+alias su='su -s /bin/zsh'
+## Alias for VTT tool
+#alias myscreen='screen -S sip-tester -h 5000 -RR -d'
+
+# Gestion du ls : couleur + touche pas aux accents
+alias ls='ls --classify --tabsize=0 --literal --color=auto --show-control-chars --human-readable '
+
+# Multimedia
+#alias jt13h='vlc mms://213.205.97.105/tf1jt/jt13d`date +"%d%m%Y"`.asf'
+#alias jt20h='vlc mms://213.205.97.105/tf1jt/jt20d`date +"%d%m%Y"`.asf'
+#alias jthier='vlc mms://213.205.97.105/tf1jt/jt20d`date --date "1 day ago" +%d%m%Y`.asf'
+#alias avi2wav='mplayer -vc dummy -vo null -ao pcm:file=video.wav' #Un petit `lame -h` et vous avez un mp3
+
+# Webcam
+#alias webcam='mplayer tv:// -tv driver=v4l:width=640:height=480:device=/dev/video0'
+alias webcam='mplayer tv:// -tv device=/dev/video0'
+#alias webcam-record='mplayer tv:// -tv driver=v4l:device=/dev/video0:width=640:height=480 -vo mpegpes:test.avi'
+alias webcam-record='mplayer tv:// -tv device=/dev/video0 -vo mpegpes:test.avi'
+alias photo='vidcat -f png -d /dev/video0 -s 640x480 -o picture.png'
+
+
+# Web Radios
+alias franceinfo='mplayer -cache 320 http://vipicecast.yacast.net:80/franceinfo'
+alias funradio='mplayer -cache 320 http://vipicecast.yacast.net:80/funradio'
+alias franceinter='mplayer -cache 320 http://vipicecast.yacast.net:80/franceinter'
+alias virginradio='mplayer -cache 320 http://vipicecast.yacast.net:80/virginradio'
+alias rtl='mplayer -cache 320 http://vipicecast.yacast.net:80/rtl'
+alias rtl2='mplayer -cache 320 http://vipicecast.yacast.net:80/rtl2'
+alias bfm='mplayer -cache 320 http://vipicecast.yacast.net:80/bfm'
+alias europe1='mplayer -cache 320 http://vipicecast.yacast.net:80/europe1'
+alias bfmtv='mplayer -cache 320 mms://vipmms9.yacast.net/bfm_bfmtv'
+alias couleur3='mplayer -cache 320 http://broadcast.infomaniak.ch/rsr-couleur3-high.mp3'
+alias class95='mplayer -cache 320 http://mediacorp.rastream.com/950fm'
+alias softclassicrock='cvlc http://softclassicrock.com/scr.asx'
+
+
+# Demande confirmation avant decraser un fichier
+# et oublie la correction pour cp, mv et mkdir
+alias mkdir='nocorrect mkdir'
+alias rmdir='nocorrect rmdir'
+alias cp='cp -r'
+# Raccourcis pour 'ls'
+alias ll='ls -l'
+alias la='ls -a'
+alias lla='ls -al'
+alias lia='ls -ila'
+
+#Raccourcis pour 'cd ..'
+alias s='cd ..'
+
+# history
+alias h='history'
+
+# zmv -- see /usr/share/zsh/**/zmv
+alias zcp='zmv -C'
+alias zln='zmv -L'
+
+# log, usefull with _logtail completion function
+# (and complete_aliases option)
+alias logtail='tail -F --max-unchanged-stats=5'
+
+# ignore umask when extracting files
+
+# Quelques alias pratiques
+alias less='less --quiet'
+#alias s='cd ..'
+alias df='df --human-readable'
+# un dernier bien pratique pour savoir quoi prend quelle place
+# alias dush='du * -s -h | egrep "^[0-9\.]+M.*" >> /dev/null 2>&1 | sort -n >> /dev/null 2>&1'
+alias dush='du * -s -h | egrep "^[0-9\.,]+[MG].*" | sort -n'
+
+#alias aclreset='find . -maxdepth 1 -type f | xargs chmod u+rw-x,og-xw+r'
+#alias aclrecreset='find . -type f -printf "\"%p\"\n" | xargs chmod u+rw-x,og+r-wx'
+
+# 'hash' some directories {{{
+# 'hash' often visited directorys
+#   Note: That's *not* variables or aliase!
+#    ,----
+#    | $ hash -d M=~/.mutt
+#    | $ cd M
+#    | ~M
+#    | $ echo $M
+#    |
+#    | $ pwd
+#    | /home/dope/.mutt
+#    | $ 
+#    `----
+hash -d M=~/.mutt
+hash -d V=~/.vim
+hash -d L=/var/log
+#hash -d S=~/scripts
+hash -d Z=~/.zsh
+
+# charge les alias persos s'ils existent
+if [ -r "$HOME"/.alias ]
+then
+  source "$HOME"/.alias
+fi
+
+
+
+
+
+
+

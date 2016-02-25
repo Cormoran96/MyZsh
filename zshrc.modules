@@ -1,0 +1,32 @@
+#### load modules
+
+# cap -> POSIX.1e (.6) capability sets
+#zmodload -iab zsh/cap cap getcap setcap
+#zshrc_load_status module cap
+
+# stat
+zmodload -ab -i zsh/stat stat
+zshrc_load_status module stat
+
+# zftp
+#autoload -U zfinit
+#zfinit
+#zmodload -ab -i zsh/zftp zftp
+#zshrc_load_status module zftp
+
+# zprof -> profiling des fonctions shells
+zmodload -ab -i zsh/zprof zprof
+zshrc_load_status module zprof
+
+# clone -> clone le shell courant dans un tty
+# ou un vt libre (marrant mais pas vraiment
+# utile, c pour avoir openvt en builtins...)
+#zmodload -iab zsh/clone clone
+#zshrc_load_status module zclone
+
+# net/tcp -> gestion de connections tcp 
+# doit être utilisable pour faire un httpd
+# en pur shell :)
+#zmodload  -iab zsh/net/tcp
+#zshrc_load_status module ztcp
+
