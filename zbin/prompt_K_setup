@@ -1,0 +1,163 @@
+# themable prompt
+
+prompt_K_help () {
+  cat <<EOH
+This prompt is color-scheme-able.  You can invoke it thus:
+
+  prompt K [ <user> [<host>] [<delimiters>] [<path>] [<date>] ]
+
+The default colors are: blue cyan green yellow yellow 
+This theme works best with a dark background.
+
+Recommended fonts for this theme: terminus.
+EOH
+}
+
+prompt_K_setup_() {
+  
+  # Define used colors 
+  local root_color="red"
+  local error_color="red"
+  local ssh_color="blue"
+  local screen_color="cyan"
+  local console_color="cyan"
+  local su_color="red"
+  local tty_color="magenta"
+
+  local user_color=${1-"blue"}
+  local host_color=${2-"cyan"}
+  local at_color=${3-"green"}
+  local car_color=${3-"green"}
+  local path_color=${4-"yellow"}
+  local date_color=${5-"yellow"}
+  
+  # all flags to normal
+  local reset="%{$reset_color%}"
+
+  #prompt_parts_colors 
+  local date_format date daterr host user at
+  local cpath xpath lcar rcar lbr rbr slash
+  local end ttyu ttyp shi ddot tdot
+  local screen ssh su console
+  
+  # Define prompt date format
+  date_format="%H:%M"
+  # yellow date
+  date="%{$fg[$date_color]%}%D{$date_format}"
+  # yellow date, red if non-zero exit status
+  daterr="%(?.%{$fg[$date_color]%}.%{$fg[$error_color]%})%D{$date_format}"
+
+  # host color
+  host="%B%{$fg[$host_color]%}%m%b"
+  # user color, uid dependant 
+  user="%B%(!.%{$fg[$root_color]%}.%{$fg[$user_color]%})%n%b"
+  # @ color
+  at="%{$fg[$at_color]%}@"
+  # [ and ]
+  lcar="%{$fg[$car_color]%}["
+  rcar="%{$fg[$car_color]%}]"
+  # ( and )
+  lbr="%{$fg[$car_color]%}("
+  rbr="%{$fg[$car_color]%})"
+  # $ or #
+  end="%(!.%{$fg[$root_color]%}#.%{$fg[$user_color]%}$)"
+  # :
+  ddot="%{$fg[$car_color]%}:"
+  # .. (path's slitter)
+  tdot="%{$fg[$car_color]%}.."
+  # / (path's delimiter)
+  slash="%{$fg[$path_color]%}/"
+  # tty
+  ttyu="%{$fg[$tty_color]%}%l"
+  # [tty]
+  ttyp="$lcar$ttyu$rcar"
+  # ($0 history_number)
+  shi="$lbr%{$fg[$path_color]%}%N %B%{$fg[$tty_color]%}%!%b$rbr"
+  # ssh color
+  #ssh="%B%{$fg[$ssh_color]%}(SSH)%b"
+  ssh="%B$lbr%{$fg[$ssh_color]%}SSH$rbr%b"
+  # screen color
+  #screen="%B$lcar%{$fg[$screen_color]%}SCREEN$rcar%b"
+  screen="%B$lbr%{$fg[$screen_color]%}SCREEN$rbr%b"
+  # console color
+  console="%B$lbr%{$fg[$console_color]%}CONSOLE$rbr%b"
+  
+  # sudo/su color
+  su="%B$lbr%{$fg[$su_color]%}SU$rbr%b"
+
+  # cpath remove all but the last two elements of PWD
+  # eg: /usr/share/doc becomes ../share/doc
+  cpath="%B%{$fg[$path_color]%}%(3~,$tdot$slash,)%2c%b"
+  # xpath remove all but the first and the las element of PWD
+  # eg: /usr/share/doc becomes /usr/../doc
+  xpath="%B%{$fg[$path_color]%}%(3~,%-1~$slash$tdot$slash%1~,%2~)%b"
+
+  # Date in right of prompt line
+  RPS1="%{%}$daterr %w/%D{%m/%Y}$reset%{%}"
+
+  # when entering complex command, (aka PS2 and PS3),
+  # make sure right prompt is clear
+  RPS2=""
+
+  # left prompt
+  local ps1_prefix ps1_postfix ps1_path
+  
+  ps1_prefix="$reset"
+  
+  # We change host color if we are connected via SSH, SU or
+  # if we are in a screen session
+ 
+  if [[ "$TERM" == "screen" || "$TERM" == "screen.linux" ]];
+  then
+    ps1_prefix="$ps1_prefix%{%}$screen$ddot"
+  fi
+  
+  # pidof can return more than one result. 
+  # ( we should use a for loop here, but... zsh'powa! )
+  if [[ ${${(@O)$(pidof sshd)//$PPID/ok}[1]} == ok ]];
+  then
+    ps1_prefix="$ps1_prefix%{%}$ssh$ddot"
+  fi
+
+
+  if (( $PPID != 1 ));
+  then
+    if [[ $(ps -o comm= -p $PPID) == "login" ]];
+    then
+      ps1_prefix="$ps1_prefix%{%}$console$ddot"
+    elif (( $(ps -o uid= -p $PPID) != $UID ));
+    then
+      ps1_prefix="$ps1_prefix%{%}$su$ddot"
+    fi
+  fi
+
+  ps1_postfix="$end$reset "
+  ps1_path="$lcar$xpath$rcar"
+    
+  PS1="$ps1_prefix$user$at$host$ddot$ps1_path$ps1_postfix"
+
+}
+
+prompt_K_preview () {
+
+  local color colord colors colorsd
+  colors=(blue cyan green yellow red magenta)
+  colorsd=(cyan green yellow red magenta blue)
+
+  if (( ! $#* )); then
+      prompt_preview_theme K blue cyan green yellow
+      print
+    for (( i = 1; i <= $#colors; i++ )); do
+      color=$colors[$i]
+      colord=$colorsd[$i]
+      prompt_preview_theme K $color $color $colord $colord
+      (( i < $#colors )) && print
+    done
+  else
+    prompt_preview_theme K "$@"
+  fi
+  
+}
+
+prompt_K_setup_ "$@"
+

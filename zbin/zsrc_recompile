@@ -1,0 +1,25 @@
+## invoke this every time when u change .zshrc to
+## recompile it.
+
+zsrc_recompile () {
+  
+  typeset -a zfiles
+  zfiles=(~/.zshenv ~/.zshrc ~/.zlogin ~/.zlogout ~/.zcompdump)
+  
+  autoload -U zrecompile
+
+  for i in $zfiles;
+  do
+    if [[ -f $i ]]; 
+    then
+      zrecompile -p $i
+    fi
+    if [[ -f $i.zwc.old ]];
+    then
+      rm -f $i.zwx.old
+    fi
+  done
+
+}
+
+zsrc_recompile "$@"

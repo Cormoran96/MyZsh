@@ -1,0 +1,7 @@
+# status load error
+zshrc_load_error () {
+  echo "\r.zshrc load failed: $*."
+}
+
+zshrc_load_error "$@"
+

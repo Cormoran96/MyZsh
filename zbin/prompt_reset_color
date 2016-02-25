@@ -1,0 +1,18 @@
+# reset all prompts colors
+prompt_reset_color() {
+
+  # supress colors
+
+  PS1=`echo $PS1 | cat -v | sed -e s/"\^\[\[[0-9]\{2\}\(;[0-9]\{2\}\)\?m"//g`
+  RPS1=`echo $RPS1 | cat -v | sed -e s/"\^\[\[[0-9]\{2\}\(;[0-9]\{2\}\)\?m"//g`
+
+  # restore \r (which are now ^M)
+  PS1=`echo $PS1 | sed -e s/"\^M"/"\r"/g`
+  RPS1=`echo $RPS1 | sed -e s/"\^M"/"\r"/g`
+
+  # supress effects
+  PS1=`echo $PS1 | sed -e s/"%[bBuU]"//g`
+  RPS1=`echo $RPS1 | sed -e s/"%[bBuU]"//g`
+}
+
+prompt_reset_color "$@"
