@@ -1,0 +1,18 @@
+# add a directory to fpath and autoload what's in
+function fpath_autoload () {
+  local lng
+  for i in $*;
+  do
+    if [[ -d $i ]];
+    then
+      lng=$#fpath
+      fpath=($fpath $i)
+      if [[ $lng -ne $#fpath && -n $(ls $i) ]];
+      then
+        autoload ${i}/*(:t)
+      fi
+    fi
+  done
+}
+
+fpath_autoload "$@"
