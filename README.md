@@ -7,13 +7,13 @@
 1. Clone this repository somewhere on your machine.
 
     ```sh
-    git clone https://github.com/Cormoran96/MyZsh.git
+    git clone https://github.com/Cormoran96/MyZsh.git .zsh
     ```
 
 2. Add the link to your `.zshrc`:
 
     ```sh
-    ln -s MyZsh/zshrc .zshrc && ln -s MyZsh/zshenv .zshenv
+    ln -s .zsh/zshrc .zshrc && ln -s .zsh/zshenv .zshenv
     ```
 
 3. Start a new terminal session.
