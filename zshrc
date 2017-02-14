@@ -79,12 +79,12 @@ DIRSTACKSIZE=10
 #zshrc_load_status report timing stats when take more than $REPORTIME sec.
 #
 ## locales, le vrai probleme... certains prog ne supportent
-## pas l'UTF-8, d'autres sont codés en durs pour ça (cf snownews)
-## et de toutes façons, personnes ne veut se mettre d'accord
-## à ce sujet (bien qu'UTF-8 soit de +en+ populaire, alors
-## que franchement, à long terme, ça ne peut pas marcher)
-## (ben voui, faudra bien passer à l'encodage sur 32bits un jour,
-## avec toutes les possibilités à la con de locales, alors avoir
+## pas l'UTF-8, d'autres sont codÃ©s en durs pour Ã§a (cf snownews)
+## et de toutes faÃ§ons, personnes ne veut se mettre d'accord
+## Ã  ce sujet (bien qu'UTF-8 soit de +en+ populaire, alors
+## que franchement, Ã  long terme, Ã§a ne peut pas marcher)
+## (ben voui, faudra bien passer Ã  l'encodage sur 32bits un jour,
+## avec toutes les possibilitÃ©s Ã  la con de locales, alors avoir
 ## un texte qui prend 3x plus de place juste pour les klingons 
 ## puissent le lire...)
 #
@@ -96,7 +96,7 @@ DIRSTACKSIZE=10
 ##export LANGUAGE="fr_FR@euro:en_US"
 ##export LC_MESSAGES="fr_FR@euro"
 #export LC_ALL="C"
-##export LC_ALL=
+export LC_ALL="en_US.UTF-8"
 ##export LC_CTYPE="fr_FR.UTF-8"
 ##export LC_NUMERIC="fr_FR@euro"
 ##export LC_TIME="fr_FR@euro"
